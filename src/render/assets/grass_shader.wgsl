@@ -108,6 +108,15 @@ fn vertex(@location(0) vertex_position: vec3<f32>, @builtin(instance_index) inst
     // ---COLOR---
     let lambda = clamp(vertex_position.y, 0.,1.);
     out.color = mix(config.bottom_color, config.main_color, lambda);
+
+    // --RANDOMISED COLOR---
+    var texture_position = vec2<f32>(position_field_offset.x ,position_field_offset.z) * 5. ;
+    let dim = textureDimensions(noise_texture, 0);
+    texture_position = abs(texture_position % vec2<f32>(dim));
+    var texture_pixel = textureLoad(noise_texture, vec2<i32>(i32(texture_position.x),i32(texture_position.y)), 0);
+    let random_r = ((texture_pixel.x + texture_pixel.y ) - 1.) / 16.;
+    out.color.x += random_r;
+
     return out;
 }
 

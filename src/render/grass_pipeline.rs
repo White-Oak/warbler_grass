@@ -164,6 +164,7 @@ impl SpecializedMeshPipeline for GrassPipeline {
         }
 
         descriptor.fragment.as_mut().unwrap().shader = self.shader.clone();
+        descriptor.primitive.cull_mode = None;
         Ok(descriptor)
     }
 }
